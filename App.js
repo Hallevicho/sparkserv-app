@@ -1,11 +1,24 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Platform, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Animated,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import Login from './Login';
 import SignIn from './SignIn';
+import Dashboard from './Dashboard';
+import Scheduling from './Scheduling';
+import CashMethod from './CashMethod';
+import Notify from './Notify';
+import Profile from './Profile'; // Make sure you have Profile.js
 
 import FixerImage from './assets/Fixer.png';
 
@@ -17,8 +30,16 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     Animated.parallel([
-      Animated.timing(fadeAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
-      Animated.spring(scaleAnim, { toValue: 1, friction: 6, useNativeDriver: true }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 6,
+        useNativeDriver: true,
+      }),
     ]).start();
   }, []);
 
@@ -29,8 +50,9 @@ function HomeScreen({ navigation }) {
   return (
     <LinearGradient
       colors={['#00f2fe', '#4facfe']}
-      style={[Platform.OS === 'web' ? styles.webContainer : styles.androidContainer]}
+      style={Platform.OS === 'web' ? styles.webContainer : styles.androidContainer}
     >
+      {/* Decorative shapes */}
       <View style={styles.shape1} />
       <View style={styles.shape2} />
       <View style={styles.shape3} />
@@ -60,11 +82,7 @@ function HomeScreen({ navigation }) {
           <>
             <Text style={styles.androidTitle}>SPARKSERV</Text>
             <Text style={styles.androidSubtitle}>We Listen, We Fix!</Text>
-            <Image
-              source={FixerImage}
-              style={styles.androidImage}
-              onError={() => console.warn('Image failed to load on Android')}
-            />
+            <Image source={FixerImage} style={styles.androidImage} />
             <TouchableOpacity style={styles.androidButton} onPress={handleGetStarted}>
               <Text style={styles.androidButtonText}>Get Started</Text>
             </TouchableOpacity>
@@ -79,17 +97,21 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {/* All screens must be passed using 'component' */}
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="Scheduling" component={Scheduling} />
+        <Stack.Screen name="CashMethod" component={CashMethod} />
+        <Stack.Screen name="Notify" component={Notify} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-// Styles remain the same
 const styles = StyleSheet.create({
-  // Android styles
   androidContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 30 },
   androidTitle: { fontSize: 36, fontWeight: 'bold', marginBottom: 0, textAlign: 'center', color: '#fff' },
   androidSubtitle: { fontSize: 20, marginBottom: 20, textAlign: 'center', color: '#fff' },
@@ -97,18 +119,16 @@ const styles = StyleSheet.create({
   androidButton: { backgroundColor: '#007BFF', paddingVertical: 15, paddingHorizontal: 30, borderRadius: 10, marginTop: 40 },
   androidButtonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
 
-  // Web styles
-  webContainer: { flex: 1, width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingLeft: 200 },
+  webContainer: { flex: 1, width: '100%', height: '100vh', justifyContent: 'center', alignItems: 'center' },
   webInnerContainer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', maxWidth: 1200, width: '90%', gap: 60 },
-  webImage: { width: 600, height: 600, resizeMode: 'contain', borderRadius: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.3, shadowRadius: 15, elevation: 10 },
+  webImage: { width: 600, height: 600, resizeMode: 'contain', borderRadius: 20 },
   webTextContainer: { flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' },
   webTitle: { fontSize: 50, fontWeight: 'bold', marginBottom: 0, color: '#fff' },
   webSubtitle: { fontSize: 26, marginBottom: 40, color: '#fff' },
   webButton: { backgroundColor: '#007BFF', paddingVertical: 18, paddingHorizontal: 40, borderRadius: 12 },
   webButtonText: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
 
-  // Background Shapes
-  shape1: { position: 'absolute', top: -50, left: -50, width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(255, 255, 255, 0.38)' },
-  shape2: { position: 'absolute', bottom: -60, right: -60, width: 250, height: 250, borderRadius: 125, backgroundColor: 'rgba(255, 255, 255, 0.22)' },
-  shape3: { position: 'absolute', top: '40%', left: '20%', width: 150, height: 150, borderRadius: 75, backgroundColor: 'rgba(255, 255, 255, 0.19)' },
+  shape1: { position: 'absolute', top: -50, left: -50, width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(255,255,255,0.38)' },
+  shape2: { position: 'absolute', bottom: -60, right: -60, width: 250, height: 250, borderRadius: 125, backgroundColor: 'rgba(255,255,255,0.22)' },
+  shape3: { position: 'absolute', top: '40%', left: '20%', width: 150, height: 150, borderRadius: 75, backgroundColor: 'rgba(255,255,255,0.19)' },
 });

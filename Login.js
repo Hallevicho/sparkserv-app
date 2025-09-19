@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import {
   View,
@@ -11,7 +10,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function Login({ navigation }) { // ✅ navigation prop added
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,9 +25,8 @@ export default function Login({ navigation }) { // ✅ navigation prop added
       return;
     }
 
-    setMessageTitle('Login Attempt');
-    setMessageText(`Username: ${email}\nPassword: ${password}`);
-    setModalVisible(true);
+    // ✅ Successful login → go to Dashboard
+    navigation.replace('Dashboard');
   };
 
   return (
@@ -42,7 +40,9 @@ export default function Login({ navigation }) { // ✅ navigation prop added
       <View style={styles.header}>
         <Text style={styles.titleLight}>Welcome to</Text>
         <Text style={styles.titleBold}>SPARKSERV</Text>
-        <Text style={styles.subtitle}>Your home appliances deserve care, and we’re here to deliver!</Text>
+        <Text style={styles.subtitle}>
+          Your home appliances deserve care, and we’re here to deliver!
+        </Text>
       </View>
 
       {/* Card */}
@@ -84,7 +84,7 @@ export default function Login({ navigation }) { // ✅ navigation prop added
           Don’t have an account?{' '}
           <Text
             style={styles.signUpLink}
-            onPress={() => navigation.navigate('SignIn')} // ✅ Navigate to SignUp
+            onPress={() => navigation.navigate('SignIn')}
           >
             Sign up
           </Text>
@@ -110,31 +110,139 @@ export default function Login({ navigation }) { // ✅ navigation prop added
   );
 }
 
-// Styles remain the same as before
+// Styles
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20, position: 'relative' },
-  shape1: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(255,255,255,0.22)', top: 50, left: -50 },
-  shape2: { position: 'absolute', width: 300, height: 300, borderRadius: 150, backgroundColor: 'rgba(255,255,255,0.47)', bottom: -100, right: -100 },
-  shape3: { position: 'absolute', width: 150, height: 150, borderRadius: 75, backgroundColor: 'rgba(255,255,255,0.56)', bottom: 120, left: -40 },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    position: 'relative',
+  },
+  shape1: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(255,255,255,0.22)',
+    top: 50,
+    left: -50,
+  },
+  shape2: {
+    position: 'absolute',
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    backgroundColor: 'rgba(255,255,255,0.47)',
+    bottom: -100,
+    right: -100,
+  },
+  shape3: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: 'rgba(255,255,255,0.56)',
+    bottom: 120,
+    left: -40,
+  },
   header: { alignItems: 'center', marginBottom: 30, zIndex: 2 },
   titleLight: { fontSize: 24, fontWeight: '300', color: '#fff' },
   titleBold: { fontSize: 40, fontWeight: '800', color: '#fff', marginTop: 5 },
-  subtitle: { fontSize: 16, fontWeight: '500', color: '#fff', marginTop: 5, textAlign: 'center' },
-  card: { width: '100%', maxWidth: 400, backgroundColor: '#fff', borderRadius: 20, padding: 25, elevation: 5, zIndex: 2, ...(Platform.OS === 'web' && { boxShadow: '0px 4px 15px rgba(0,0,0,0.2)' }) },
-  cardTitle: { fontSize: 20, fontWeight: '700', textAlign: 'center', marginBottom: 30, color: '#111' },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#fff',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  card: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 25,
+    elevation: 5,
+    zIndex: 2,
+    marginBottom: 80,
+    ...(Platform.OS === 'web' && {
+      boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
+    }),
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#111',
+  },
   inputGroup: { marginBottom: 20 },
-  passwordLabelRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
+  passwordLabelRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
   label: { fontSize: 14, fontWeight: '500', marginBottom: 7, color: '#333' },
   forgotPassword: { fontSize: 14, color: '#007BFF', fontWeight: '500' },
-  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 12, paddingHorizontal: 15, paddingVertical: Platform.OS === 'web' ? 12 : 14, fontSize: 15, backgroundColor: '#fafafa' },
-  loginButton: { backgroundColor: '#007BFF', paddingVertical: 15, borderRadius: 12, marginTop: 10 },
-  loginButtonText: { color: '#fff', fontSize: 18, fontWeight: '600', textAlign: 'center' },
-  signUpText: { textAlign: 'center', fontSize: 14, color: '#444', marginTop: 20 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    paddingVertical: Platform.OS === 'web' ? 12 : 14,
+    fontSize: 15,
+    backgroundColor: '#fafafa',
+  },
+  loginButton: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
+    borderRadius: 12,
+    marginTop: 10,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  signUpText: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#444',
+    marginTop: 20,
+  },
   signUpLink: { fontWeight: '700', color: '#007BFF' },
-  backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
-  modalBox: { width: 300, backgroundColor: '#fff', borderRadius: 15, padding: 20, alignItems: 'center', elevation: 5 },
+  backdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBox: {
+    width: 300,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    padding: 20,
+    alignItems: 'center',
+    elevation: 5,
+  },
   modalTitle: { fontSize: 20, fontWeight: '700', marginBottom: 10, color: '#111' },
-  modalText: { fontSize: 16, color: '#555', marginBottom: 20, textAlign: 'center' },
-  modalButton: { backgroundColor: '#007BFF', paddingVertical: 10, borderRadius: 8, width: '100%' },
-  modalButtonText: { color: '#fff', fontWeight: '600', textAlign: 'center', fontSize: 16 },
+  modalText: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 10,
+    borderRadius: 8,
+    width: '100%',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    textAlign: 'center',
+    fontSize: 16,
+  },
 });
