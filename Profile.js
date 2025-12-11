@@ -51,10 +51,17 @@ export default function Profile({ navigation }) {
       <Animated.ScrollView style={{ flex: 1, opacity: fadeAnim }} contentContainerStyle={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerText}>Account Profile</Text>
+          {isEditing && (
+            <TouchableOpacity onPress={() => setIsEditing(false)} style={styles.arrowButton}>
+              <Text style={styles.arrowText}>←</Text>
+            </TouchableOpacity>
+          )}
+          <Text style={styles.headerText}>
+            {isEditing ? 'Edit Profile' : 'Account Profile'}
+          </Text>
           {!isEditing ? (
             <TouchableOpacity style={styles.editButton} onPress={handleEditClick}>
-              <Text style={styles.buttonText}>Edit</Text>
+              <Text style={styles.buttonText}>Edit Profile</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={styles.saveButton} onPress={handleSaveClick}>
@@ -128,12 +135,16 @@ export default function Profile({ navigation }) {
 
         {/* Action Buttons */}
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Log Out</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Dashboard')}>
-            <Text style={styles.backText}>Back to Home</Text>
-          </TouchableOpacity>
+          {!isEditing ? (
+            <>
+              <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.logoutText}>Log Out</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Dashboard')}>
+                <Text style={styles.backText}>Back to Home</Text>
+              </TouchableOpacity>
+            </>
+          ) : null}
         </View>
       </Animated.ScrollView>
 
@@ -184,6 +195,8 @@ const styles = StyleSheet.create({
   logoutText: { color: '#fff', fontWeight: '700', fontSize: 18 },
   backButton: { backgroundColor: '#fff', paddingVertical: 16, borderRadius: 20, borderWidth: 1, borderColor: '#ddd', alignItems: 'center' },
   backText: { color: '#111', fontWeight: '600', fontSize: 16 },
+  arrowButton: { marginRight: 10 },
+  arrowText: { fontSize: 22, fontWeight: 'bold', color: '#111' },
   modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
   modalBox: { width: 300, backgroundColor: '#fff', borderRadius: 15, padding: 20, alignItems: 'center', elevation: 5 },
   modalTitle: { fontSize: 20, fontWeight: '700', marginBottom: 10, color: '#111' },
