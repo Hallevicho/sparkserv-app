@@ -83,7 +83,7 @@ export default function CashMethod({ navigation, route }) {
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" }}>
           <View style={{ backgroundColor: "#fff", padding: 24, borderRadius: 16, width: "80%", alignItems: "center" }}>
             <Text style={{ fontSize: 16, fontWeight: "600", marginBottom: 16, textAlign: "center" }}>
-              Proceeding with "{selectedMethod}" payment method.
+              Proceeding with {selectedMethod} payment method.
             </Text>
             <TouchableOpacity
               onPress={() => {

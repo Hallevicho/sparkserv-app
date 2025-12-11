@@ -38,7 +38,7 @@ export default function Login({ navigation }) {
 
       {/* Titles */}
       <View style={styles.header}>
-        <Text style={styles.titleLight}>Welcome to</Text>
+        <Text style={styles.titleLight}>Welcome To</Text>
         <Text style={styles.titleBold}>SPARKSERV</Text>
         <Text style={styles.subtitle}>
           Your home appliances deserve care, and we’re here to deliver!
@@ -53,7 +53,7 @@ export default function Login({ navigation }) {
           <Text style={styles.label}>Your Email Address</Text>
           <TextInput
             style={styles.input}
-            placeholder="Your Email Address"
+            placeholder=""
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -69,7 +69,7 @@ export default function Login({ navigation }) {
           </View>
           <TextInput
             style={styles.input}
-            placeholder="********"
+            placeholder=""
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -77,7 +77,7 @@ export default function Login({ navigation }) {
         </View>
 
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Sign in</Text>
+          <Text style={styles.loginButtonText}>Log In</Text>
         </TouchableOpacity>
 
         <Text style={styles.signUpText}>
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginBottom: 30,
-    color: '#111',
+    color: '#1976D2',
   },
   inputGroup: { marginBottom: 20 },
   passwordLabelRow: {

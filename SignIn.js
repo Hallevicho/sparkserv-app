@@ -85,7 +85,7 @@ export default function SignIn({ navigation }) {
             <Text style={styles.label}>Username</Text>
             <TextInput
               style={styles.input}
-              placeholder="Your Username"
+              placeholder=""
               value={username}
               onChangeText={setUsername}
             />
@@ -95,7 +95,7 @@ export default function SignIn({ navigation }) {
             <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.input}
-              placeholder="Your Email Address"
+              placeholder=""
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -106,7 +106,7 @@ export default function SignIn({ navigation }) {
             <Text style={styles.label}>Password</Text>
             <TextInput
               style={styles.input}
-              placeholder="********"
+              placeholder=""
               value={password}
               onChangeText={setPassword}
               secureTextEntry
@@ -117,7 +117,7 @@ export default function SignIn({ navigation }) {
             <Text style={styles.label}>Confirm Password</Text>
             <TextInput
               style={styles.input}
-              placeholder="********"
+              placeholder=""
               value={confirmPassword}
               onChangeText={setConfirmPassword}
               secureTextEntry
@@ -167,7 +167,7 @@ const androidStyles = StyleSheet.create({
   shape2: { position: 'absolute', width: 350, height: 350, borderRadius: 175, backgroundColor: 'rgba(255,255,255,0.47)', bottom: -150, right: -150 },
   shape3: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(255,255,255,0.56)', top: 50, right: -50 },
   card: { width: '100%', maxWidth: 400, backgroundColor: '#fff', borderRadius: 20, padding: 30, elevation: 5, zIndex: 2, marginVertical: -40 },
-  cardTitle: { fontSize: 18, fontWeight: '700', textAlign: 'center', marginBottom: 20, color: '#111' },
+  cardTitle: { fontSize: 18, fontWeight: '700', textAlign: 'center', marginBottom: 20, color: '#1976D2' },
   inputGroup: { marginBottom: 20 },
   label: { fontSize: 13, fontWeight: '500', marginHorizontal: -7, marginBottom: 7, color: '#333' },
   input: { borderWidth: 1, borderColor: '#ccc', paddingHorizontal: 12, paddingVertical: 10, marginHorizontal: -7, borderRadius: 8, fontSize: 12, backgroundColor: '#fff' },
@@ -191,7 +191,7 @@ const webStyles = StyleSheet.create({
   shape2: { position: 'absolute', width: 350, height: 350, borderRadius: 175, backgroundColor: 'rgba(255,255,255,0.47)', bottom: -150, right: -150 },
   shape3: { position: 'absolute', width: 200, height: 200, borderRadius: 100, backgroundColor: 'rgba(255,255,255,0.56)', top: 50, right: -50 },
   card: { width: '100%', maxWidth: 400, backgroundColor: '#fff', borderRadius: 20, padding: 70, elevation: 5, zIndex: 2, marginVertical: -50, boxShadow: '0px 4px 15px rgba(0,0,0,0.2)' },
-  cardTitle: { fontSize: 20, fontWeight: '700', textAlign: 'center', marginBottom: 30, color: '#111' },
+  cardTitle: { fontSize: 20, fontWeight: '700', textAlign: 'center', marginBottom: 30, color: '#1976D2' },
   inputGroup: { marginBottom: 20 },
   label: { fontSize: 14, fontWeight: '500', marginBottom: 7, marginHorizontal: -25, color: '#333' },
   input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 14, marginHorizontal: -25, fontSize: 13, backgroundColor: '#fff' },

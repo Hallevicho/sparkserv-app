@@ -57,7 +57,7 @@ export default function Scheduling() {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backArrow}>←</Text>
-          <Text style={styles.headerText}>Smart Scheduling</Text>
+          <Text style={styles.headerText}>Scheduling</Text>
         </TouchableOpacity>
       </View>
 
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   slotText: { fontWeight: "600", color: "#374151" },
 
   bookButton: {
-    backgroundColor: "#111827",
+    backgroundColor: "#22c55e",
     padding: 16,
     borderRadius: 12,
     alignItems: "center",

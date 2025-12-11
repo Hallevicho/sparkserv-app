@@ -18,7 +18,7 @@ export default function Notify({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Notification</Text>
-        <View style={{ width: 60 }} />
+        <View style={{ width: 20 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>

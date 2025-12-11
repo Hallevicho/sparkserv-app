@@ -62,13 +62,21 @@ export default function Dashboard({ navigation }) {
     <View style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
 
-      {/* Hamburger Icon */}
-      <TouchableOpacity style={styles.menuButton} onPress={() => setMenuVisible(true)}>
-        <Icon name="menu" size={30} color="#111" />
-      </TouchableOpacity>
+     <View style={{ position: "relative", paddingTop: 40, paddingBottom: 10 }}>
+  {/* Centered Title */}
+  <Text style={[styles.title, { textAlign: "center" }]}>
+    SPARKSERV
+  </Text>
 
-      {/* Title */}
-      <Text style={styles.title}>SPARKSERV</Text>
+  {/* Hamburger Icon */}
+  <TouchableOpacity
+    style={{ position: "absolute", left: 0, top: 20 }} // adjust top as needed
+    onPress={() => setMenuVisible(true)}
+  >
+    <Icon name="menu" size={30} color="#111" />
+  </TouchableOpacity>
+  </View>
+
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
