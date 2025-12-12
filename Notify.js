@@ -1,108 +1,95 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Platform, Dimensions } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Platform, Dimensions, StatusBar as RNStatusBar } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function Notify({ navigation }) {
-  const technician = "Jane Doe";
-  const date = { day: "Wed", date: "3" };
-  const slot = "2:00pm - 4:00pm";
-  const appliance = "Washing Machine";
-  const paymentMethod = "Cash on Delivery";
+export default function Notify() {
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const {
+    technician = "Technician",
+    date = { day: "N/A", date: "N/A" },
+    slot = "N/A",
+    appliance = "N/A",
+    paymentMethod = "N/A",
+  } = route.params || {};
+
+  // 🔹 Fix Android status bar flicker
+  if (Platform.OS === "android") {
+    RNStatusBar.setBackgroundColor("#f3f4f6", true);
+    RNStatusBar.setBarStyle("dark-content", true);
+  }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="dark" />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Notification</Text>
-        <View style={{ width: 20 }} />
+    <View style={Platform.OS === "web" ? stylesWeb.container : stylesAndroid.container}>
+      {/* Header with arrow and title */}
+      <View style={Platform.OS === "web" ? stylesWeb.header : stylesAndroid.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={Platform.OS === "web" ? stylesWeb.arrowContainer : stylesAndroid.arrowContainer}
+        >
+          <Text style={Platform.OS === "web" ? stylesWeb.arrowText : stylesAndroid.arrowText}>←</Text>
+        </TouchableOpacity>
+        <Text style={Platform.OS === "web" ? stylesWeb.headerTitle : stylesAndroid.headerTitle}>
+          My Notification
+        </Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-        <View style={styles.notificationCard}>
-          <Text style={styles.dateText}>
-            {date ? `${date.day}/Sep ${date.date}` : "N/A"}, {slot || "N/A"}
+      <ScrollView
+        contentContainerStyle={Platform.OS === "web" ? stylesWeb.scrollContainer : stylesAndroid.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={Platform.OS === "web" ? stylesWeb.notificationCard : stylesAndroid.notificationCard}>
+          <Text style={Platform.OS === "web" ? stylesWeb.bookingTitle : stylesAndroid.bookingTitle}>
+            Booking with {technician}
           </Text>
-          <Text style={styles.bookingTitle}>
-            Booking with {technician || "Technician"}
-          </Text>
-          <View style={styles.detailsContainer}>
-            <Text style={styles.detailItem}>
-              <Text style={styles.detailLabel}>Appliance: </Text>
-              <Text>{appliance || "N/A"}</Text>
+          <View style={Platform.OS === "web" ? stylesWeb.detailsContainer : stylesAndroid.detailsContainer}>
+            <Text style={Platform.OS === "web" ? stylesWeb.detailItem : stylesAndroid.detailItem}>
+              <Text style={Platform.OS === "web" ? stylesWeb.detailLabel : stylesAndroid.detailLabel}>Appliance: </Text>
+              <Text>{appliance}</Text>
             </Text>
-            <Text style={styles.detailItem}>
-              <Text style={styles.detailLabel}>Schedule: </Text>
-              <Text>{date ? `${date.day}/Sep ${date.date} (${slot})` : "N/A"}</Text>
+            <Text style={Platform.OS === "web" ? stylesWeb.detailItem : stylesAndroid.detailItem}>
+              <Text style={Platform.OS === "web" ? stylesWeb.detailLabel : stylesAndroid.detailLabel}>Schedule: </Text>
+              <Text>{date.day && date.date ? `${date.day}/Sep ${date.date} (${slot})` : "N/A"}</Text>
             </Text>
-            <Text style={styles.detailItem}>
-              <Text style={styles.detailLabel}>Payment Method: </Text>
-              <Text>{paymentMethod || "N/A"}</Text>
+            <Text style={Platform.OS === "web" ? stylesWeb.detailItem : stylesAndroid.detailItem}>
+              <Text style={Platform.OS === "web" ? stylesWeb.detailLabel : stylesAndroid.detailLabel}>Payment Method: </Text>
+              <Text>{paymentMethod}</Text>
             </Text>
-            <Text style={styles.detailItem}>
-              <Text style={styles.detailLabel}>Notes: </Text>
+            <Text style={Platform.OS === "web" ? stylesWeb.detailItem : stylesAndroid.detailItem}>
+              <Text style={Platform.OS === "web" ? stylesWeb.detailLabel : stylesAndroid.detailLabel}>Notes: </Text>
               <Text>Please call me 30 minutes before arrival.</Text>
             </Text>
           </View>
-
-          {/* Back Button below Notes */}
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Dashboard")}
-            style={[styles.backButton, { alignSelf: "flex-start", marginTop: 20 }]}
-          >
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f3f4f6",
-    width: "100%",
-    minHeight: SCREEN_HEIGHT,
-  },
+// Android Styles
+const stylesAndroid = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#f3f4f6", width: "100%", minHeight: SCREEN_HEIGHT },
   header: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === "android" ? 40 : 60,
+    paddingTop: 50,
     paddingBottom: 16,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
     elevation: 3,
-    justifyContent: "space-between",
+    justifyContent: "center",
+    position: "relative",
   },
-  backButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    backgroundColor: "#3B82F6",
-    borderRadius: 8,
-  },
-  backButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: "center",
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#111",
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 16,
-  },
+  arrowContainer: { position: "absolute", left: 16, top: 50 },
+  arrowText: { fontSize: 24, fontWeight: "900", color: "#111" },
+  headerTitle: { fontSize: 20, fontWeight: "bold", color: "#111" },
+  scrollContainer: { flexGrow: 1, padding: 16 },
   notificationCard: {
     flex: 1,
     backgroundColor: "#fff",
@@ -115,29 +102,46 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginBottom: 20,
   },
-  dateText: {
-    fontSize: 14,
-    color: "#6b7280",
-    marginBottom: 8,
-    lineHeight: 20,
-  },
-  bookingTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#22c55e",
-    marginBottom: 12,
-    lineHeight: 24,
-  },
+  bookingTitle: { fontSize: 20, fontWeight: "bold", color: "#22c55e", marginBottom: 12, lineHeight: 24 },
   detailsContainer: { marginTop: 8 },
-  detailItem: {
-    fontSize: 16,
-    color: "#374151",
-    marginBottom: 8,
-    lineHeight: 22,
-    flexWrap: "wrap",
+  detailItem: { fontSize: 16, color: "#374151", marginBottom: 8, lineHeight: 22, flexWrap: "wrap" },
+  detailLabel: { fontWeight: "bold", color: "#111" },
+});
+
+// Web Styles
+const stylesWeb = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#f3f4f6", width: "100%", minHeight: SCREEN_HEIGHT },
+  header: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 40,
+    paddingTop: 30,
+    paddingBottom: 20,
+    backgroundColor: "#fff",
+    boxShadow: "0px 3px 6px rgba(0,0,0,0.1)",
+    justifyContent: "center",
+    position: "relative",
   },
-  detailLabel: {
-    fontWeight: "bold",
-    color: "#111",
+  arrowContainer: { position: "absolute", left: 16, top: 30 },
+  arrowText: { fontSize: 24, fontWeight: "900", color: "#111" },
+  headerTitle: { fontSize: 28, fontWeight: "bold", color: "#111" },
+  scrollContainer: { flexGrow: 1, padding: 16, alignItems: "center" },
+  notificationCard: {
+    width: 480,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 6,
+    marginBottom: 20,
+    alignItems: "center",
   },
+  bookingTitle: { fontSize: 20, fontWeight: "bold", color: "#22c55e", marginBottom: 12, lineHeight: 24 },
+  detailsContainer: { marginTop: 8 },
+  detailItem: { fontSize: 16, color: "#374151", marginBottom: 8, lineHeight: 22, flexWrap: "wrap" },
+  detailLabel: { fontWeight: "bold", color: "#111" },
 });

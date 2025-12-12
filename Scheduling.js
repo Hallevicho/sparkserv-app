@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, Text, TouchableOpacity, StyleSheet, Modal, 
-  Platform, ScrollView 
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  StyleSheet,
+  Modal,
+  Platform,
+  ScrollView,
+  Dimensions,
+  StatusBar,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
+
+const { width } = Dimensions.get("window");
+const arrowSize = width < 500 ? 24 : 28;
+const titleSize = width < 500 ? 18 : 22;
 
 export default function Scheduling() {
   const route = useRoute();
   const navigation = useNavigation();
-  const { appliance } = route.params || {}; // receives appliance from Dashboard
+  const { appliance } = route.params || {};
 
   // State management
   const [selectedTechnician, setSelectedTechnician] = useState("Jane Doe");
@@ -55,10 +67,16 @@ export default function Scheduling() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={({ hovered }) => [
+            styles.backButton,
+            hovered && styles.backButtonHover,
+          ]}
+        >
           <Text style={styles.backArrow}>←</Text>
-          <Text style={styles.headerText}>Scheduling</Text>
-        </TouchableOpacity>
+        </Pressable>
+        <Text style={styles.headerText}>Scheduling</Text>
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
@@ -140,7 +158,7 @@ export default function Scheduling() {
         <TouchableOpacity
           style={styles.bookButton}
           onPress={() =>
-            navigation.navigate('CashMethod', {
+            navigation.navigate("CashMethod", {
               technician: selectedTechnician,
               date: selectedDate,
               slot: selectedSlot,
@@ -189,17 +207,46 @@ export default function Scheduling() {
 // Styles
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#e5e7eb" },
+
+  // Updated Header with StatusBar padding
   header: {
-    padding: 16,
+    width: "100%",
+    height: 56 + (Platform.OS === "android" ? StatusBar.currentHeight : 0),
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "#fff",
-    elevation: Platform.OS === "android" ? 3 : 0,
+    elevation: Platform.OS === "android" ? 4 : 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    paddingHorizontal: 16,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#d1d5db",
   },
   backButton: {
-    flexDirection: "column",
-    alignItems: "flex-start",
+    position: "absolute",
+    left: 16,
+    top: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    bottom: 0,
+    justifyContent: "center",
+    zIndex: 1,
+    padding: 8,
   },
-  backArrow: { fontSize: 22, color: "#374151", marginTop: 20, marginBottom: 10},
-  headerText: { fontSize: 16, fontWeight: "600", color: "#6b7280" },
+  backButtonHover: {
+    backgroundColor: "rgba(59, 130, 246, 0.1)",
+    borderRadius: 12,
+  },
+  backArrow: {
+    fontSize: arrowSize,
+    color: "#111827",
+    transitionDuration: "150ms",
+  },
+  headerText: {
+    fontSize: titleSize,
+    fontWeight: "600",
+    color: "#111827",
+    textAlign: "center",
+  },
 
   techCard: {
     flexDirection: "row",
@@ -262,7 +309,7 @@ const styles = StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)", // ✅ fixed
+    backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
