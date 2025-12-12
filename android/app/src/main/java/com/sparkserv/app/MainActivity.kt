@@ -1,4 +1,4 @@
-package com.sparkserv
+package com.sparkserv.app
 
 import android.os.Build
 import android.os.Bundle

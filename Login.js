@@ -9,6 +9,8 @@ import {
   Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { auth } from './firebase/firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -17,7 +19,7 @@ export default function Login({ navigation }) {
   const [messageTitle, setMessageTitle] = useState('');
   const [messageText, setMessageText] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setMessageTitle('Missing Information');
       setMessageText('Please fill out both email and password fields.');
@@ -25,18 +27,30 @@ export default function Login({ navigation }) {
       return;
     }
 
-    // ✅ Successful login → go to Dashboard
-    navigation.replace('Dashboard');
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigation.replace('Dashboard'); // Successful login
+    } catch (error) {
+      setMessageTitle('Login Failed');
+      if (error.code === 'auth/user-not-found') {
+        setMessageText('No user found with this email.');
+      } else if (error.code === 'auth/wrong-password') {
+        setMessageText('Incorrect password.');
+      } else if (error.code === 'auth/invalid-email') {
+        setMessageText('Invalid email address.');
+      } else {
+        setMessageText(error.message);
+      }
+      setModalVisible(true);
+    }
   };
 
   return (
     <LinearGradient colors={['#4facfe', '#00f2fe']} style={styles.container}>
-      {/* Background shapes */}
       <View style={styles.shape1} />
       <View style={styles.shape2} />
       <View style={styles.shape3} />
 
-      {/* Titles */}
       <View style={styles.header}>
         <Text style={styles.titleLight}>Welcome To</Text>
         <Text style={styles.titleBold}>SPARKSERV</Text>
@@ -45,7 +59,6 @@ export default function Login({ navigation }) {
         </Text>
       </View>
 
-      {/* Card */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Login to your Account</Text>
 
@@ -80,10 +93,10 @@ export default function Login({ navigation }) {
           <Text style={styles.loginButtonText}>Log In</Text>
         </TouchableOpacity>
 
-        <Text style={styles.signUpText}>
+        <Text style={styles.signInText}>
           Don’t have an account?{' '}
           <Text
-            style={styles.signUpLink}
+            style={styles.signInLink}
             onPress={() => navigation.navigate('SignIn')}
           >
             Sign up
@@ -91,7 +104,6 @@ export default function Login({ navigation }) {
         </Text>
       </View>
 
-      {/* Modal Message Box */}
       <Modal transparent visible={modalVisible} animationType="fade">
         <View style={styles.backdrop}>
           <View style={styles.modalBox}>
@@ -110,7 +122,6 @@ export default function Login({ navigation }) {
   );
 }
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -205,13 +216,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-  signUpText: {
+  signInText: {
     textAlign: 'center',
     fontSize: 14,
     color: '#444',
     marginTop: 20,
   },
-  signUpLink: { fontWeight: '700', color: '#007BFF' },
+  signInLink: { fontWeight: '700', color: '#007BFF' },
   backdrop: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
